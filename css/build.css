@@ -1,0 +1,42 @@
+button {
+  font-weight: bold;
+}
+
+.brick {
+  width: 200px;
+}
+
+.brick > img {
+  cursor: pointer;
+}
+
+.wall {
+  width: 96%;
+  margin-left: 2%;
+}
+
+.title {
+  width: 96%;
+  margin-left: 2%;
+  margin-bottom: 20px;
+}
+
+.pswp {
+  z-index: 9999 !important;
+}
+
+.pswp__caption {
+  display: flex;
+}
+
+
+.image-gallery-placeholder.placeholder {
+  opacity: 0.5;
+  cursor: pointer;
+  -webkit-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-user-modify: read-only !important;
+  text-align: center;
+}
+

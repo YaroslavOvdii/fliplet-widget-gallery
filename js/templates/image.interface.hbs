@@ -1,0 +1,13 @@
+<div class="col-xs-4 col-sm-3 col-md-2 item-holder file image" data-file-id="{{id}}" data-file-ext="{{ext}}">
+    <div class="image-holder" style="background-image: url('{{urlSmall}}');"
+         style="{color: blue; background: white}">
+        <div class="image-overlay">
+            <i class="fa fa-trash-o" aria-hidden="true"></i>
+        </div>
+    </div>
+    <div class="image-title">
+        <p>
+            <span class="title-text {{#unless title}} title-default-text {{/unless}} ">{{#if title}}{{title}}{{/if}}</span>
+        </p>
+    </div>
+</div>

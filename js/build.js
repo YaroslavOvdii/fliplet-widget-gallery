@@ -18,7 +18,7 @@ Fliplet.Widget.instance('image-gallery', function (data) {
       gutterX: 10,
       gutterY: 10,
       onResize: function() {
-        wall.fitZone();
+        wall.fitWidth();
         wall.refresh();
       }
     });
@@ -64,7 +64,7 @@ Fliplet.Widget.instance('image-gallery', function (data) {
 
 
     $(WALL_SELECTOR + ' .brick img').on('load', function() {
-      $(WALL_SELECTOR).trigger('resize');
+        $(WALL_SELECTOR).trigger('resize');
     });
 
     return wall;

@@ -1,0 +1,38 @@
+{
+  "name": "Gallery",
+  "package": "masonry-image-gallery",
+  "version": "1.0.0",
+  "icon": "img/icon.png",
+  "tags": ["type:component", "category:general"],
+  "provider_only": false,
+  "references": [],
+  "html_tag": "div",
+  "interface": {
+    "dependencies": [
+      "fliplet-core",
+      "fliplet-studio-ui",
+      "handlebars",
+      "lodash",
+      "jquery-ui"
+    ],
+    "assets": [
+      "js/interface.templates.js",
+      "js/interface.js",
+      "css/interface.css"
+    ]
+  },
+  "build": {
+    "dependencies": [
+      "font-awesome",
+      "handlebars",
+      "photoswipe"
+    ],
+    "assets": [
+      "vendor/jquery.1.10.2.js",
+      "vendor/freewall/freewall.js",
+      "js/build.templates.js",
+      "js/build.js",
+      "css/build.css"
+    ]
+  }
+}

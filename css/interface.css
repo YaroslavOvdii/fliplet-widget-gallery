@@ -1,0 +1,273 @@
+.file-picker-select {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding-bottom: 25px;
+}
+
+.file-picker-select label {
+    padding-left: 20px;
+}
+
+.file-picker-select-group {
+
+}
+
+iframe {
+    display: none;
+    left: 100%;
+}
+
+.result{
+    display: none;
+}
+
+.add-image-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-image-button {
+    display: block;
+    background-color: #00ABD1;
+    color: #FFF;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 20px;
+    text-decoration: none;
+    text-align: center;
+    width: 150px;
+    cursor: pointer;
+}
+
+.darkzone{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #000;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.drag-tip{
+    float: left;
+    margin: 10px 0 5px 15px;
+}
+
+.edit-image-title{
+    top: 35%;
+    position: absolute;
+    background: #eaeaea;
+    width: 100%;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 10px;
+    align-items: flex-start;
+}
+
+.edit-image-title .title{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.edit-image-title .title span{
+    float: left;
+}
+
+.edit-image-title .title  i{
+    float: right;
+    cursor: pointer;
+}
+
+.edit-image-title input{
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px lightgray solid;
+    width: 100%;
+}
+
+.edit-button{
+    padding: 5px 10px;
+    margin: 5px 0;
+    background: #00ABD1;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+html, body {height: 100%; overflow: hidden;}
+
+.holder {
+    position: relative;
+    min-height: 135px;
+    min-width: 340px;
+}
+
+#app {
+    height: 100vh; overflow: hidden;
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    padding: 15px 0;
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    top: 0;
+    bottom: 0;
+}
+
+.image-library {
+    display: flex;
+    justify-content: flex-start;
+    flex-flow: wrap;
+    cursor: default;
+    margin: 20px 0;
+    opacity: 1;
+}
+
+.image-library .col-xs-4 {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 10px;
+}
+
+.image-holder {
+    position: relative;
+    width: 100%;
+    padding-top: 59%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    border: 1px solid #d9ddde;
+    background-color: #FFFFFF;
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: row wrap;
+    overflow: hidden;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.image-title p {
+    margin: 0;
+}
+
+.image-library .image {
+    cursor: pointer;
+}
+
+.holder {
+    overflow-y: auto;
+}
+
+.holder:after {
+    content: "";
+    display: block;
+    margin-bottom: 110px;
+}
+
+
+.on-drop-enter:before {
+    border: 2px solid dodgerblue;
+    content: "";
+    position: absolute;
+    top: -5px;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+}
+
+.image-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.edit-image-title {
+    width: calc(100vw - 30px);
+    position: relative;
+    box-sizing: border-box;
+    top: 0;
+    left: calc(-46vw + 50%);
+    cursor: default;
+}
+
+.fa-close:before {
+    cursor: pointer;
+}
+
+.item-holder:nth-child(3n+1) .edit-image-title {
+    left: calc(-15.4vw + 50%);
+}
+
+.item-holder:nth-child(3n+3) .edit-image-title {
+    left: calc(-76.7vw + 50%);
+}
+.edit-title-section {
+    margin-top: 10px;
+    position: relative;
+    z-index: 9999;
+}
+.edit-title-section:before {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -18px;
+    margin: auto;
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px;
+    border-color:  transparent transparent #eaeaea transparent;
+    z-index: 9999;
+}
+.image-holder:hover .image-overlay {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(51,51,51,0.25);
+    opacity: 1;
+}
+.image-overlay i {
+    content: "\f1f8";
+    position: absolute;
+    z-index: 1;
+    top: 4px;
+    right: 4px;
+    color: red;
+}
+
+.title-default-text:before{
+    font-style: italic;
+    content: 'Add a title...';
+}
+
+
+.blocked {
+    pointer-events: none;
+}

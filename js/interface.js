@@ -1,8 +1,6 @@
 var widgetId = Fliplet.Widget.getDefaultId();
 var data = Fliplet.Widget.getData() || {};
 data.images = data.images || [];
-console.log(data.images);
-
 
 var $addImageButton = $('#add-image');
 var $imagesContainer = $('.image-library');
@@ -55,7 +53,7 @@ function editImageTitleBinding(e) {
 
       changeDragging(false);
       $editInput.val(selectedImage.title || '');
-      $('div[data-file-id=' + selectedImage.id + ']').append($editImageTitle.detach());
+      $($('div.image-library').children()[imageForEditIndex]).append($editImageTitle.detach());
       $editImageTitle.show();
 
       $editInput.focus();
@@ -65,29 +63,18 @@ function editImageTitleBinding(e) {
   }
 }
 
-function getCurrentItemIndex(){
-  return data.images.findIndex(function (image, index) {
-    if (image.id === selectedImage.id) {
-      return true;
-    }
-  });
-}
-
-
 function selectPrevImage(e) {
   e.preventDefault();
-  var currentItemIndex = getCurrentItemIndex();
-  if (currentItemIndex > 0) {
-    selectedImage = data.images[currentItemIndex - 1];
-  }
+  imageForEditIndex = imageForEditIndex - 1 >= 0 ? imageForEditIndex - 1 : 0;
+  selectedImage = data.images[imageForEditIndex];
+
 }
 
 function selectNextImage(e) {
   e.preventDefault();
-  var currentItemIndex = getCurrentItemIndex();
-  if (currentItemIndex + 1 < data.images.length ) {
-    selectedImage = data.images[currentItemIndex + 1];
-  }
+  imageForEditIndex = imageForEditIndex + 1 < data.images.length ? imageForEditIndex + 1 : imageForEditIndex;
+  selectedImage = data.images[imageForEditIndex];
+
 }
 
 function changeWidgetHeader() {
@@ -163,11 +150,16 @@ $imagesContainer.sortable({
   tolerance: "pointer"
 });
 
+var indexImageForSort;
+
+$imagesContainer.on('sortstart', function(event, ui) {
+  indexImageForSort = $('.image').index(ui.item[0]);
+});
+
 $imagesContainer.on('sortstop', function(event, ui) {
-  var oldIndex = getSelectedImage(ui.item).index;
   var newIndex = $('.image').index(ui.item[0]);
-  var image = Object.assign(data.images[oldIndex]);
-  data.images.splice(oldIndex, 1);
+  var image = Object.assign(data.images[indexImageForSort]);
+  data.images.splice(indexImageForSort, 1);
   data.images.splice(newIndex, 0, image);
   savePreview();
 });
@@ -237,11 +229,10 @@ window.addEventListener('message', function (event) {
 
 
 function getSelectedImage($img) {
-  var selectedImage = data.images.find(function(item) {
-    return $img.data('file-id') === item.id;
-  });
+  var index = $img.index();
+  var selectedImage = data.images[index];
   return {
-    index: data.images.indexOf(selectedImage),
+    index: index,
     img: selectedImage
   };
 }
@@ -275,7 +266,7 @@ function onInputChange(e){
 function changeImageTitle(){
   if (!selectedImage) return;
   selectedImage.title = $editInput.val() ? $editInput.val() : '';
-  $el = $('div[data-file-id=' + selectedImage.id + ']').find('.title-text');
+  $el = $($('div.image-library').children()[imageForEditIndex]).find('.title-text');
   selectedImage.title ?
     $el.removeClass('title-default-text').text(selectedImage.title) :
     $el.text('').addClass('title-default-text');
@@ -283,15 +274,19 @@ function changeImageTitle(){
 
 function onEditClose(e) {
   if(e) e.preventDefault();
-  imageForEditIndex = null;
   $editImageTitle.detach();
   changeDragging(true);
 }
 
+function toggleImages() {
+  $('.item-holder,.image-overlay>.fa-trash-o').toggleClass('blocked');
+}
+
 function onEditClick() {
-  event.preventDefault();
+
   var imageIndex = imageForEditIndex;
   onEditClose();
+  toggleImages();
   Fliplet.Widget.toggleSaveButton(false);
   Fliplet.Widget.toggleCancelButton(false);
   Fliplet.Studio.emit('widget-save-label-update', {text: 'Save changes'});
@@ -301,6 +296,7 @@ function onEditClick() {
       switch (e) {
         case 'widget-rendered':
           beginAnimationFilePicker();
+          toggleImages();
           break;
         case 'widget-set-info':
           Fliplet.Widget.toggleSaveButton(true);

@@ -266,3 +266,8 @@ html, body {height: 100%; overflow: hidden;}
     font-style: italic;
     content: 'Add a title...';
 }
+
+
+.blocked {
+    pointer-events: none;
+}

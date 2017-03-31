@@ -8,16 +8,17 @@
     <div class="help-text">
 
     </div>
-    <div id="add-image" class="add-image-button">
+    <div id="add-image" class="btn btn-primary add-image-button">
       Add images
     </div>
   </div>
-
+  {{#if images}}
   <span class="drag-tip">
     Drag Images to reorder them.
   </span>
+  {{/if}}
   <div class="holder">
-    <div class="image-library">
+    <div class="image-library row">
     </div>
     <div class="edit-title-section" style="display: none;">
       <div class="edit-image-title">
@@ -27,8 +28,8 @@
           </span>
           <i id="editClose" class="fa fa-times"></i>
         </div>
-        <input id="edit-input" type="text" placeholder="Enter your image title">
-        <div id="edit-button" class="edit-button"><i class="fa fa-pencil fa-3"></i> Edit image</div>
+        <input id="edit-input" type="text" class="form-control" placeholder="Enter your image title">
+        <div id="edit-button" class="btn btn-primary edit-button"><i class="fa fa-pencil fa-3"></i> Edit image</div>
       </div>
     </div>
   </div>

@@ -9,20 +9,18 @@
     padding-left: 20px;
 }
 
-.file-picker-select-group {
-
-}
+.file-picker-select-group {}
 
 iframe {
     display: none;
     left: 100%;
 }
 
-.result{
+.result {
     display: none;
 }
 
-.add-image-container{
+.add-image-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -34,15 +32,13 @@ iframe {
     background-color: #00ABD1;
     color: #FFF;
     border-radius: 4px;
-    padding: 10px;
     margin: 20px;
     text-decoration: none;
     text-align: center;
-    width: 150px;
     cursor: pointer;
 }
 
-.darkzone{
+.darkzone {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -53,17 +49,17 @@ iframe {
     opacity: 0;
 }
 
-.drag-tip{
+.drag-tip {
     float: left;
-    margin: 10px 0 5px 15px;
+    margin: 10px 0 5px;
 }
 
-.edit-image-title{
+.edit-image-title {
     top: 35%;
     position: absolute;
-    background: #eaeaea;
+    background: #e6ebec;
     width: 100%;
-    height: 130px;
+    height: 150px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -71,39 +67,30 @@ iframe {
     align-items: flex-start;
 }
 
-.edit-image-title .title{
+.edit-image-title .title {
     display: flex;
     justify-content: space-between;
     width: 100%;
 }
 
-.edit-image-title .title span{
+.edit-image-title .title span {
     float: left;
 }
 
-.edit-image-title .title  i{
+.edit-image-title .title i {
     float: right;
     cursor: pointer;
 }
 
-.edit-image-title input{
-    border-radius: 5px;
-    padding: 5px;
-    border: 1px lightgray solid;
-    width: 100%;
+.edit-button {
+    line-height: 34px;
 }
 
-.edit-button{
-    padding: 5px 10px;
-    margin: 5px 0;
-    background: #00ABD1;
-    color: #fff;
-    border-radius: 5px;
-    cursor: pointer;
+body,
+html {
+    height: 100%;
+    overflow: hidden;
 }
-
-
-html, body {height: 100%; overflow: hidden;}
 
 .holder {
     position: relative;
@@ -112,16 +99,16 @@ html, body {height: 100%; overflow: hidden;}
 }
 
 #app {
-    height: 100vh; overflow: hidden;
+    height: 100vh;
+    overflow: hidden;
     max-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-
-    padding: 15px 0;
+    padding: 15px;
     position: absolute;
-    left: 15px;
-    right: 15px;
+    left: 0;
+    right: 0;
     top: 0;
     bottom: 0;
 }
@@ -131,13 +118,13 @@ html, body {height: 100%; overflow: hidden;}
     justify-content: flex-start;
     flex-flow: wrap;
     cursor: default;
-    margin: 20px 0;
+    margin: 20px -5px;
     opacity: 1;
 }
 
 .image-library .col-xs-4 {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
     margin-bottom: 10px;
 }
 
@@ -170,6 +157,14 @@ html, body {height: 100%; overflow: hidden;}
 
 .image-title p {
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.image-title .title-text {
+    font-size: 10px;
+    font-weight: bold;
 }
 
 .image-library .image {
@@ -178,6 +173,7 @@ html, body {height: 100%; overflow: hidden;}
 
 .holder {
     overflow-y: auto;
+    overflow: visible;
 }
 
 .holder:after {
@@ -185,7 +181,6 @@ html, body {height: 100%; overflow: hidden;}
     display: block;
     margin-bottom: 110px;
 }
-
 
 .on-drop-enter:before {
     border: 2px solid dodgerblue;
@@ -204,11 +199,11 @@ html, body {height: 100%; overflow: hidden;}
 }
 
 .edit-image-title {
-    width: calc(100vw - 30px);
+    width: 100vw;
     position: relative;
     box-sizing: border-box;
     top: 0;
-    left: calc(-46vw + 50%);
+    left: -15px;
     cursor: default;
 }
 
@@ -216,18 +211,20 @@ html, body {height: 100%; overflow: hidden;}
     cursor: pointer;
 }
 
-.item-holder:nth-child(3n+1) .edit-image-title {
-    left: calc(-15.4vw + 50%);
+.item-holder:nth-child(3n+2) .edit-image-title {
+    left: calc(-15.4vw + -70%);
 }
 
 .item-holder:nth-child(3n+3) .edit-image-title {
-    left: calc(-76.7vw + 50%);
+    left: calc(-76.7vw + 33%);
 }
+
 .edit-title-section {
     margin-top: 10px;
     position: relative;
     z-index: 9999;
 }
+
 .edit-title-section:before {
     position: absolute;
     left: 0;
@@ -240,9 +237,10 @@ html, body {height: 100%; overflow: hidden;}
     height: 0;
     border-style: solid;
     border-width: 10px;
-    border-color:  transparent transparent #eaeaea transparent;
+    border-color: transparent transparent #e6ebec transparent;
     z-index: 9999;
 }
+
 .image-holder:hover .image-overlay {
     content: "";
     position: absolute;
@@ -250,9 +248,17 @@ html, body {height: 100%; overflow: hidden;}
     right: 0;
     top: 0;
     bottom: 0;
-    background: rgba(51,51,51,0.25);
+    background: rgba(255,255,255,1);
+    background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,255,1)), color-stop(100%, rgba(255,255,255,0)));
+    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+    background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+    background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=  '#ffffff', endColorstr='#ffffff', GradientType=0 );
     opacity: 1;
 }
+
 .image-overlay i {
     content: "\f1f8";
     position: absolute;
@@ -262,11 +268,12 @@ html, body {height: 100%; overflow: hidden;}
     color: red;
 }
 
-.title-default-text:before{
+.title-default-text:before {
     font-style: italic;
     content: 'Add a title...';
+    font-size: 10px;
+    font-weight: normal;
 }
-
 
 .blocked {
     pointer-events: none;

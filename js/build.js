@@ -3,7 +3,7 @@ Fliplet.Widget.instance('image-gallery', function (data) {
   const photoswipeTemplate = Fliplet.Widget.Templates['templates.photoswipe'];
 
   function initGallery() {
-    const WALL_SELECTOR = '[data-image-gallery-id=' + data.id + '] .wall';
+    const WALL_SELECTOR = '[data-image-gallery-id=' + data.id + '] .wall:not("[data-mce-bogus] [data-image-gallery-id=' + data.id + '] .wall")';
 
     var wall = new Freewall(WALL_SELECTOR);
 

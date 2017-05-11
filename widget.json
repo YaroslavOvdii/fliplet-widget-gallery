@@ -5,7 +5,9 @@
   "icon": "img/icon.png",
   "tags": ["type:component", "category:general"],
   "provider_only": false,
-  "references": [],
+  "references": [
+    "images.$.id:mediaFile"
+  ],
   "html_tag": "div",
   "interface": {
     "dependencies": [

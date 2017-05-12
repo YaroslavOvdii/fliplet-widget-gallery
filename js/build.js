@@ -1,4 +1,4 @@
-Fliplet.Widget.instance('image-gallery', function (data) {
+Fliplet.Widget.instance('image-gallery', function(data) {
 
   const photoswipeTemplate = Fliplet.Widget.Templates['templates.photoswipe'];
 
@@ -12,7 +12,7 @@ Fliplet.Widget.instance('image-gallery', function (data) {
       animate: true,
       cellW: function() {
         var width = $('body').width();
-        return width >= 640 ? 300 : 135;
+        return width >= 640 ? 200 : 135;
       },
       cellH: 'auto',
       gutterX: 10,
@@ -23,10 +23,12 @@ Fliplet.Widget.instance('image-gallery', function (data) {
       }
     });
 
-    if(!Fliplet.Env.get('interact')) {
-      $(WALL_SELECTOR + ' .brick img').click(function () {
+    if (!Fliplet.Env.get('interact')) {
+      $(WALL_SELECTOR + ' .brick img').click(function() {
         var $clickedBrick = $(this)[0].parentElement;
-        Fliplet.Navigate.previewImages(data, {index: $clickedBrick.index - 1})
+        Fliplet.Navigate.previewImages(data, {
+          index: $clickedBrick.index - 1
+        })
       });
     }
 
@@ -34,7 +36,7 @@ Fliplet.Widget.instance('image-gallery', function (data) {
 
 
     $(WALL_SELECTOR + ' .brick img').on('load', function() {
-        $(WALL_SELECTOR).trigger('resize');
+      $(WALL_SELECTOR).trigger('resize');
     });
 
     return wall;

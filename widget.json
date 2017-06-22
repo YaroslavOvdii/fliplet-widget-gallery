@@ -30,7 +30,6 @@
       "photoswipe"
     ],
     "assets": [
-      "vendor/jquery.1.10.2.js",
       "vendor/freewall/freewall.js",
       "js/build.templates.js",
       "js/build.js",

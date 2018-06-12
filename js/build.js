@@ -26,9 +26,8 @@ Fliplet.Widget.instance('image-gallery', function(data) {
     if (!Fliplet.Env.get('interact')) {
       $(WALL_SELECTOR + ' .brick img').click(function() {
         var $clickedBrick = $(this)[0].parentElement;
-        data.options = {
-          index: $clickedBrick.index - 1
-        }
+        data.options = data.options || {}
+        data.options.index = $clickedBrick.index - 1
 
         Fliplet.Navigate.previewImages(data);
       });

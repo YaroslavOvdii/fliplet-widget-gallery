@@ -1,6 +1,6 @@
 {
   "name": "Gallery",
-  "package": "masonry-image-gallery",
+  "package": "com.fliplet.masonry-image-gallery",
   "version": "1.0.0",
   "icon": "img/icon.png",
   "tags": ["type:component", "category:general"],

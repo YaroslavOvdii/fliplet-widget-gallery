@@ -43,5 +43,10 @@ Fliplet.Widget.instance('image-gallery', function(data) {
     return wall;
   }
 
+  // Appearance change Hook
+  Fliplet.Hooks.on('appearanceChanged', function () {
+    initGallery();
+  });
+
   initGallery();
 });

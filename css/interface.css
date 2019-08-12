@@ -9,8 +9,6 @@
     padding-left: 20px;
 }
 
-.file-picker-select-group {}
-
 iframe {
     display: none;
     left: 100%;
@@ -277,4 +275,47 @@ html {
 
 .blocked {
     pointer-events: none;
+}
+
+/**
+ * When we changing image title only in MS Edge and IE 11 default layout breaks.
+ * Because of that I were diceded to change layout only for thouse two browsers.
+ *   
+ * MS Edge layout
+*/
+@supports (-ms-ime-align: auto) {
+
+    .holder {
+        overflow-x: hidden;
+    }
+    .item-holder:nth-child(3n+2) .edit-image-title {
+        left: calc(-16vw + -70%);
+    }
+    .item-holder:nth-child(3n+3) .edit-image-title {
+        left: calc(-75.1vw + 33%);
+    }
+    .edit-image-title {
+        left: -22px;
+        padding-left: 35px;
+        width: 95vw;
+    }
+}
+
+/* IE11 layout */
+
+@media screen and (-ms-high-contrast: none) {
+
+    .holder {
+        overflow-x: hidden;
+    }
+    .item-holder:nth-child(3n+2) .edit-image-title {
+        left: calc(-13vw + -70%);
+    }
+    .item-holder:nth-child(3n+3) .edit-image-title {
+        left: calc(-75vw + 33%);
+    }
+    .edit-image-title {
+        padding-left: 40px;
+        width: 95vw;
+    }
 }

@@ -100,7 +100,8 @@ html {
 
 #app {
     height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     max-height: 100vh;
     display: flex;
     flex-direction: column;

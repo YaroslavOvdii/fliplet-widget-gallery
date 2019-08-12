@@ -277,12 +277,7 @@ html {
     pointer-events: none;
 }
 
-/**
- * When we changing image title only in MS Edge and IE 11 default layout breaks.
- * Because of that I were diceded to change layout only for thouse two browsers.
- *   
- * MS Edge layout
-*/
+/* MS Edge layout */
 @supports (-ms-ime-align: auto) {
 
     .holder {

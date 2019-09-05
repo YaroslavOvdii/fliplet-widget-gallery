@@ -9,7 +9,7 @@ Fliplet.Widget.instance('image-gallery', function(data) {
       data.images.forEach(function (image) {
         var $img = $('<img />');
         $img.on('load', function() {
-          $wall.trigger('resize');
+          $(window).resize();
         });
         $img.attr('src', Fliplet.Media.authenticate(image.url));
         $img.attr('alt', image.title);

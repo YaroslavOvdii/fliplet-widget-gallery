@@ -7,17 +7,19 @@ Fliplet.Widget.instance('image-gallery', function(data) {
 
     // Authenticate encrypted media files
     if (Fliplet.Env.is('native')) {
-      $(wallSelector).find('.brick img').each(function () {
-        var $img = $(this);
-        var url = $img.attr('src');
+      Fliplet().then(function () {
+        $(wallSelector).find('.brick img').each(function () {
+          var $img = $(this);
+          var url = $img.attr('src');
 
-        if (url.indexOf('auth_token') === -1) {
-          var authenticated = Fliplet.Media.authenticate(url);
+          if (url.indexOf('auth_token') === -1) {
+            var authenticated = Fliplet.Media.authenticate(url);
 
-          if (url !== authenticated) {
-            $img.attr('src', authenticated);
+            if (url !== authenticated) {
+              $img.attr('src', authenticated);
+            }
           }
-        }
+        });
       });
     }
 

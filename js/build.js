@@ -3,23 +3,25 @@ Fliplet.Widget.instance('image-gallery', function(data) {
   var wallSelector = '[data-image-gallery-id=' + data.id + '] .wall:not("[data-mce-bogus] [data-image-gallery-id=' + data.id + '] .wall")';
 
   function initGallery() {
-    var wall = new Freewall(wallSelector);
+    var $wall = $(wallSelector);
 
-    // Authenticate encrypted media files
-    if (Fliplet.Env.is('native')) {
-      $(wallSelector).find('.brick img').each(function () {
-        var $img = $(this);
-        var url = $img.attr('src');
+    if (data.images && data.images.length) {
+      debugger
+      data.images.forEach(function (image) {
+        var $img = $('<img />');
+        $img.on('load', function() {
+          $wall.trigger('resize');
+        });
+        $img.attr('src', Fliplet.Media.authenticate(image.url));
+        $img.attr('alt', image.title);
 
-        if (url.indexOf('auth_token') === -1) {
-          var authenticated = Fliplet.Media.authenticate(url);
-
-          if (url !== authenticated) {
-            $img.attr('src', authenticated);
-          }
-        }
+        var $brick = $('<div class="brick"></div>');
+        $brick.append($img);
+        $wall.append($brick);
       });
     }
+
+    var wall = new Freewall(wallSelector);
 
     wall.reset({
       selector: '.brick',
@@ -61,10 +63,6 @@ Fliplet.Widget.instance('image-gallery', function(data) {
 
     wall.fitWidth();
     parseQueries();
-
-    $(wallSelector + ' .brick img').on('load', function() {
-      $(wallSelector).trigger('resize');
-    });
 
     return wall;
   }

@@ -5,6 +5,22 @@ Fliplet.Widget.instance('image-gallery', function(data) {
   function initGallery() {
     var wall = new Freewall(wallSelector);
 
+    // Authenticate encrypted media files
+    if (Fliplet.Env.is('native')) {
+      $(wallSelector).find('.brick img').each(function () {
+        var $img = $(this);
+        var url = $img.attr('src');
+
+        if (url.indexOf('auth_token') === -1) {
+          var authenticated = Fliplet.Media.authenticate(url);
+
+          if (url !== authenticated) {
+            $img.attr('src', authenticated);
+          }
+        }
+      });
+    }
+
     wall.reset({
       selector: '.brick',
       animate: true,

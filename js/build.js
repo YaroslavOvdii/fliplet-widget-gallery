@@ -6,7 +6,6 @@ Fliplet.Widget.instance('image-gallery', function(data) {
     var $wall = $(wallSelector);
 
     if (data.images && data.images.length) {
-      debugger
       data.images.forEach(function (image) {
         var $img = $('<img />');
         $img.on('load', function() {

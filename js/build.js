@@ -33,13 +33,13 @@ Fliplet.Widget.instance('image-gallery', function (data) {
         data.options.index = $clickedBrick.index - 1;
 
         // Update remote image URLs to authenticated URLs
-        Promise.all(_.map(_.get(data, 'images'), function (image, i) {
+        Promise.all(_.map(_.get(data, 'images'), function (image, index) {
           if (!Fliplet.Media.isRemoteUrl(image.url)) {
             return Promise.resolve();
           }
 
           return Fliplet().then(function () {
-            _.set(data, ['images', i, 'url'], Fliplet.Media.authenticate(image.url));
+            _.set(data, ['images', index, 'url'], Fliplet.Media.authenticate(image.url));
           });
         })).then(function () {
           Fliplet.Navigate.previewImages(data);

@@ -1,10 +1,25 @@
 Fliplet.Widget.instance('image-gallery', function (data) {
   var $container = $(this);
+  var photoswipeTemplate = Fliplet.Widget.Templates['templates.photoswipe'];
+  var wallSelector = '[data-image-gallery-id=' + data.id + '] .wall:not("[data-mce-bogus] [data-image-gallery-id=' + data.id + '] .wall")';
 
   function initGallery() {
-    const WALL_SELECTOR = '[data-image-gallery-id=' + data.id + '] .wall:not("[data-mce-bogus] [data-image-gallery-id=' + data.id + '] .wall")';
+    var $wall = $(wallSelector);
 
-    var wall = new Freewall(WALL_SELECTOR);
+    _.forEach(data.images, function (image) {
+      var $img = $('<img />');
+      $img.on('load', function() {
+        $(window).resize();
+      });
+      $img.attr('src', Fliplet.Media.authenticate(image.url));
+      $img.attr('alt', image.title);
+
+      var $brick = $('<div class="brick"></div>');
+      $brick.append($img);
+      $wall.append($brick);
+    });
+
+    var wall = new Freewall(wallSelector);
 
     wall.reset({
       selector: '.brick',
@@ -26,34 +41,59 @@ Fliplet.Widget.instance('image-gallery', function (data) {
     });
 
     if (!Fliplet.Env.get('interact')) {
-      $(WALL_SELECTOR + ' .brick img').click(function() {
+      $container.on('click', '.brick img', function() {
         var $clickedBrick = $(this)[0].parentElement;
 
         data.options = data.options || {};
         data.options.index = $clickedBrick.index - 1;
 
         // Update remote image URLs to authenticated URLs
-        Promise.all(_.map(_.get(data, 'images'), function (image, index) {
+        _.forEach(data.images, function (image, index) {
           if (!Fliplet.Media.isRemoteUrl(image.url)) {
-            return Promise.resolve();
+            return;
           }
 
-          return Fliplet().then(function () {
-            _.set(data, ['images', index, 'url'], Fliplet.Media.authenticate(image.url));
+          _.set(data, ['images', index, 'url'], Fliplet.Media.authenticate(image.url));
+        })
+
+        var gallery = Fliplet.Navigate.previewImages(data);
+
+        gallery.listen('afterChange', function(context) {
+          Fliplet.Page.Context.update({
+            galleryId: data.id,
+            galleryOpenIndex: this.getCurrentIndex()
           });
-        })).then(function () {
-          Fliplet.Navigate.previewImages(data);
+        });
+
+        gallery.listen('close', function() {
+          Fliplet.Page.Context.remove(['galleryId', 'galleryOpenIndex']);
         });
       });
     }
 
     wall.fitWidth();
-
-    $(WALL_SELECTOR + ' .brick img').on('load', function() {
-      $(WALL_SELECTOR).trigger('resize');
-    });
+    parseQueries();
 
     return wall;
+  }
+
+  function parseQueries() {
+    var query = Fliplet.Navigate.query;
+
+    if (!query.galleryOpenIndex) {
+      return;
+    }
+
+    if (query.galleryId && query.galleryId != data.id) {
+      return;
+    }
+
+    if (query.galleryId) {
+      $(wallSelector + ' .brick:eq(' + query.galleryOpenIndex + ') img').click();
+      return;
+    }
+
+    $('[data-image-gallery-id] .wall:not("[data-mce-bogus] [data-image-gallery-id] .wall") .brick:eq(' + query.galleryOpenIndex + ') img').click();
   }
 
   // Appearance change Hook
@@ -61,18 +101,16 @@ Fliplet.Widget.instance('image-gallery', function (data) {
     initGallery();
   });
 
-  initGallery();
+  Fliplet().then(function () {
+    // Update remote image URLs to authenticated URLs
+    $(this).find('.brick img').each(function () {
+      var $img = $(this);
+      var src = $img.attr('src');
 
-  // Update remote image URLs to authenticated URLs
-  $(this).find('.brick img').each(function () {
-    var $img = $(this);
-    var src = $img.attr('src');
+      if (!Fliplet.Media.isRemoteUrl(src)) {
+        return Promise.resolve();
+      }
 
-    if (!Fliplet.Media.isRemoteUrl(src)) {
-      return Promise.resolve();
-    }
-
-    return Fliplet().then(function () {
       var authSrc = Fliplet.Media.authenticate(src);
 
       if (src === authSrc) {
@@ -81,5 +119,7 @@ Fliplet.Widget.instance('image-gallery', function (data) {
 
       $img.attr('src', authSrc);
     });
+
+    initGallery();
   });
 });

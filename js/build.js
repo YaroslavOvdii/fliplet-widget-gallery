@@ -5,9 +5,11 @@ Fliplet.Widget.instance('image-gallery', function (data) {
 
   function initGallery() {
     var $wall = $(wallSelector);
+    var $bricks = $();
 
     _.forEach(data.images, function (image) {
       var $img = $('<img />');
+
       $img.on('load', function() {
         $(window).resize();
       });
@@ -15,9 +17,11 @@ Fliplet.Widget.instance('image-gallery', function (data) {
       $img.attr('alt', image.title);
 
       var $brick = $('<div class="brick"></div>');
+
       $brick.append($img);
-      $wall.append($brick);
+      $bricks = $bricks.add($brick);
     });
+    $wall.append($bricks);
 
     var wall = new Freewall(wallSelector);
 
@@ -102,24 +106,6 @@ Fliplet.Widget.instance('image-gallery', function (data) {
   });
 
   Fliplet().then(function () {
-    // Update remote image URLs to authenticated URLs
-    $container.find('.brick img').each(function () {
-      var $img = $(this);
-      var src = $img.attr('src');
-
-      if (!Fliplet.Media.isRemoteUrl(src)) {
-        return Promise.resolve();
-      }
-
-      var authSrc = Fliplet.Media.authenticate(src);
-
-      if (src === authSrc) {
-        return;
-      }
-
-      $img.attr('src', authSrc);
-    });
-
     initGallery();
   });
 });

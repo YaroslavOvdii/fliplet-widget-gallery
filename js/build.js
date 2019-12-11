@@ -9,20 +9,12 @@ Fliplet.Widget.instance('image-gallery', function (data) {
 
     // Update remote image URLs to authenticated URLs
     _.forEach(data.images, function (image, index) {
-      if (image.url === Fliplet.Media.authenticate(image.url)) {
-        return;
-      }
-
-      _.set(data, ['images', index, 'url'], Fliplet.Media.authenticate(image.url));
-    });
-
-    _.forEach(data.images, function (image) {
       var $img = $('<img />');
 
       $img.on('load', function() {
         $(window).resize();
       });
-      $img.attr('src', image.url);
+      $img.attr('src', Fliplet.Media.authenticate(image.url));
       $img.attr('alt', image.title);
 
       var $brick = $('<div class="brick"></div>');

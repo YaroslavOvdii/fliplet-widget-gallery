@@ -1,12 +1,48 @@
-button {
+.image-gallery button {
   font-weight: bold;
 }
 
-.brick {
-  width: 200px;
+.image-gallery .wall {
+  font-size: 0;
 }
 
-.brick > img {
+.image-gallery .brick {
+  display: inline-block;
+  width: 50%;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
+@media (min-width: 640px) {
+  .image-gallery .brick {
+    width: 33.33%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .image-gallery .brick {
+    width: 25%;
+  }
+}
+
+@media (min-width: 1280px) {
+  .image-gallery .brick {
+    width: 20%;
+  }
+}
+
+@media (min-width: 1680px) {
+  .image-gallery .brick {
+    width: 13.33%;
+  }
+}
+
+.image-gallery.freewall-ready .brick {
+  display: block;
+  padding: 0;
+}
+
+.image-gallery .brick > img {
   cursor: pointer;
 }
 
@@ -24,7 +60,6 @@ button {
   display: flex;
 }
 
-
 .image-gallery-placeholder.placeholder {
   opacity: 0.5;
   cursor: pointer;
@@ -34,4 +69,3 @@ button {
   -webkit-user-modify: read-only !important;
   text-align: center;
 }
-

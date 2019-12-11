@@ -1,6 +1,5 @@
-Fliplet.Widget.instance('image-gallery', function(data) {
-
-  const photoswipeTemplate = Fliplet.Widget.Templates['templates.photoswipe'];
+Fliplet.Widget.instance('image-gallery', function (data) {
+  var $container = $(this);
 
   function initGallery() {
     const WALL_SELECTOR = '[data-image-gallery-id=' + data.id + '] .wall:not("[data-mce-bogus] [data-image-gallery-id=' + data.id + '] .wall")';
@@ -9,7 +8,7 @@ Fliplet.Widget.instance('image-gallery', function(data) {
 
     wall.reset({
       selector: '.brick',
-      animate: true,
+      animate: false,
       cellW: function() {
         var width = $('body').width();
         return width >= 640 ? 200 : 135;
@@ -20,6 +19,9 @@ Fliplet.Widget.instance('image-gallery', function(data) {
       onResize: function() {
         wall.fitWidth();
         wall.refresh();
+      },
+      onComplete: function () {
+        $container.addClass('freewall-ready');
       }
     });
 

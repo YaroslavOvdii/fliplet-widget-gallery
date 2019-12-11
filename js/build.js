@@ -103,7 +103,7 @@ Fliplet.Widget.instance('image-gallery', function (data) {
 
   Fliplet().then(function () {
     // Update remote image URLs to authenticated URLs
-    $(this).find('.brick img').each(function () {
+    $container.find('.brick img').each(function () {
       var $img = $(this);
       var src = $img.attr('src');
 

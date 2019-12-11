@@ -26,15 +26,26 @@ Fliplet.Widget.instance('image-gallery', function(data) {
     if (!Fliplet.Env.get('interact')) {
       $(WALL_SELECTOR + ' .brick img').click(function() {
         var $clickedBrick = $(this)[0].parentElement;
-        data.options = data.options || {}
-        data.options.index = $clickedBrick.index - 1
 
-        Fliplet.Navigate.previewImages(data);
+        data.options = data.options || {};
+        data.options.index = $clickedBrick.index - 1;
+
+        // Update remote image URLs to authenticated URLs
+        Promise.all(_.map(_.get(data, 'images'), function (image, i) {
+          if (!Fliplet.Media.isRemoteUrl(image.url)) {
+            return Promise.resolve();
+          }
+
+          return Fliplet().then(function () {
+            _.set(data, ['images', i, 'url'], Fliplet.Media.authenticate(image.url));
+          });
+        })).then(function () {
+          Fliplet.Navigate.previewImages(data);
+        });
       });
     }
 
     wall.fitWidth();
-
 
     $(WALL_SELECTOR + ' .brick img').on('load', function() {
       $(WALL_SELECTOR).trigger('resize');
@@ -49,4 +60,24 @@ Fliplet.Widget.instance('image-gallery', function(data) {
   });
 
   initGallery();
+
+  // Update remote image URLs to authenticated URLs
+  $(this).find('.brick img').each(function () {
+    var $img = $(this);
+    var src = $img.attr('src');
+
+    if (!Fliplet.Media.isRemoteUrl(src)) {
+      return Promise.resolve();
+    }
+
+    return Fliplet().then(function () {
+      var authSrc = Fliplet.Media.authenticate(src);
+
+      if (src === authSrc) {
+        return;
+      }
+
+      $img.attr('src', authSrc);
+    });
+  });
 });

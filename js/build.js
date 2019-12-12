@@ -11,10 +11,11 @@ Fliplet.Widget.instance('image-gallery', function (data) {
     _.forEach(data.images, function (image, index) {
       var $img = $('<img />');
 
+      image.url = Fliplet.Media.authenticate(image.url);
       $img.on('load', function() {
         $(window).resize();
       });
-      $img.attr('src', Fliplet.Media.authenticate(image.url));
+      $img.attr('src', image.url);
       $img.attr('alt', image.title);
 
       var $brick = $('<div class="brick"></div>');

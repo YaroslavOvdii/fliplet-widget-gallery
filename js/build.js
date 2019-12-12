@@ -1,30 +1,34 @@
-Fliplet.Widget.instance('image-gallery', function(data) {
+Fliplet.Widget.instance('image-gallery', function (data) {
+  var $container = $(this);
   var photoswipeTemplate = Fliplet.Widget.Templates['templates.photoswipe'];
   var wallSelector = '[data-image-gallery-id=' + data.id + '] .wall:not("[data-mce-bogus] [data-image-gallery-id=' + data.id + '] .wall")';
 
   function initGallery() {
     var $wall = $(wallSelector);
+    var $bricks = $();
 
-    if (data.images && data.images.length) {
-      data.images.forEach(function (image) {
-        var $img = $('<img />');
-        $img.on('load', function() {
-          $(window).resize();
-        });
-        $img.attr('src', Fliplet.Media.authenticate(image.url));
-        $img.attr('alt', image.title);
+    // Update remote image URLs to authenticated URLs
+    _.forEach(data.images, function (image, index) {
+      var $img = $('<img />');
 
-        var $brick = $('<div class="brick"></div>');
-        $brick.append($img);
-        $wall.append($brick);
+      $img.on('load', function() {
+        $(window).resize();
       });
-    }
+      $img.attr('src', Fliplet.Media.authenticate(image.url));
+      $img.attr('alt', image.title);
+
+      var $brick = $('<div class="brick"></div>');
+
+      $brick.append($img);
+      $bricks = $bricks.add($brick);
+    });
+    $wall.append($bricks);
 
     var wall = new Freewall(wallSelector);
 
     wall.reset({
       selector: '.brick',
-      animate: true,
+      animate: false,
       cellW: function() {
         var width = $('body').width();
         return width >= 640 ? 200 : 135;
@@ -35,15 +39,18 @@ Fliplet.Widget.instance('image-gallery', function(data) {
       onResize: function() {
         wall.fitWidth();
         wall.refresh();
+      },
+      onComplete: function () {
+        $container.addClass('freewall-ready');
       }
     });
 
     if (!Fliplet.Env.get('interact')) {
-      $(wallSelector + ' .brick img').click(function() {
+      $container.on('click', '.brick img', function() {
         var $clickedBrick = $(this)[0].parentElement;
 
-        data.options = data.options || {}
-        data.options.index = $clickedBrick.index - 1
+        data.options = data.options || {};
+        data.options.index = $clickedBrick.index - 1;
 
         var gallery = Fliplet.Navigate.previewImages(data);
 

@@ -27,6 +27,11 @@ Fliplet.Widget.instance('image-gallery', function (data) {
 
     var wall = new Freewall(wallSelector);
 
+    function reloadWall() {
+      wall.fitWidth();
+      wall.refresh();
+    }
+
     wall.reset({
       selector: '.brick',
       animate: false,
@@ -38,11 +43,11 @@ Fliplet.Widget.instance('image-gallery', function (data) {
       gutterX: 10,
       gutterY: 10,
       onResize: function() {
-        wall.fitWidth();
-        wall.refresh();
+        reloadWall();
       },
       onComplete: function () {
         $container.addClass('freewall-ready');
+        reloadWall();
       }
     });
 

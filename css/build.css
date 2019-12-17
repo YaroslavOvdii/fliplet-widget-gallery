@@ -7,39 +7,7 @@
 }
 
 .image-gallery .brick {
-  display: inline-block;
-  width: 50%;
-  padding: 5px;
-  padding: 5px;
-}
-
-@media (min-width: 640px) {
-  .image-gallery .brick {
-    width: 33.33%;
-  }
-}
-
-@media (min-width: 1024px) {
-  .image-gallery .brick {
-    width: 25%;
-  }
-}
-
-@media (min-width: 1280px) {
-  .image-gallery .brick {
-    width: 20%;
-  }
-}
-
-@media (min-width: 1680px) {
-  .image-gallery .brick {
-    width: 13.33%;
-  }
-}
-
-.image-gallery.freewall-ready .brick {
-  display: block;
-  padding: 0;
+  width: 200px;
 }
 
 .image-gallery .brick > img {

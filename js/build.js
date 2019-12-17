@@ -13,7 +13,7 @@ Fliplet.Widget.instance('image-gallery', function (data) {
 
       image.url = Fliplet.Media.authenticate(image.url);
       $img.on('load', function() {
-        $(window).resize();
+        reloadWall();
       });
       $img.attr('src', image.url);
       $img.attr('alt', image.title);
@@ -28,25 +28,26 @@ Fliplet.Widget.instance('image-gallery', function (data) {
     var wall = new Freewall(wallSelector);
 
     function reloadWall() {
+      if (!wall) {
+        return;
+      }
+
       wall.fitWidth();
       wall.refresh();
     }
 
     wall.reset({
       selector: '.brick',
-      animate: false,
+      animate: true,
       cellW: function() {
         var width = $('body').width();
+
         return width >= 640 ? 200 : 135;
       },
       cellH: 'auto',
       gutterX: 10,
       gutterY: 10,
       onResize: function() {
-        reloadWall();
-      },
-      onComplete: function () {
-        $container.addClass('freewall-ready');
         reloadWall();
       }
     });

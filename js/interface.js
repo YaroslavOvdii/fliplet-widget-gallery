@@ -24,7 +24,6 @@ const FILE_PICKER_CONFIG = {
   autoSelectOnUpload: true
 };
 
-
 $imagesContainer
   .on('click', '.image', onImageClick);
 
@@ -43,7 +42,7 @@ $('body')
 function editImageTitleBinding(e) {
   if($editImageTitle.is(':visible'))
     var code = e.keyCode || e.which;
-  switch(code){
+  switch(code) {
     case 27:
       onEditClose(e);
       break;
@@ -67,14 +66,12 @@ function selectPrevImage(e) {
   e.preventDefault();
   imageForEditIndex = imageForEditIndex - 1 >= 0 ? imageForEditIndex - 1 : 0;
   selectedImage = data.images[imageForEditIndex];
-
 }
 
 function selectNextImage(e) {
   e.preventDefault();
   imageForEditIndex = imageForEditIndex + 1 < data.images.length ? imageForEditIndex + 1 : imageForEditIndex;
   selectedImage = data.images[imageForEditIndex];
-
 }
 
 function changeWidgetHeader() {
@@ -84,8 +81,7 @@ function changeWidgetHeader() {
   $('.help-text').text(headerText);
 }
 
-
-function init(){
+function init() {
   drawImages();
 }
 
@@ -128,7 +124,7 @@ $addImageButton.on('click', function (e) {
   });
 });
 
-function savePreview(){
+function savePreview() {
   Fliplet.Widget.save(data).then(function () {
     Fliplet.Studio.emit('reload-widget-instance', widgetId);
   });
@@ -166,7 +162,7 @@ $imagesContainer.on('sortstop', function(event, ui) {
 
 var $draggingElement;
 
-function addImage(image){
+function addImage(image) {
   image.urlSmall = Fliplet.Env.get('apiUrl') + 'v1/media/files/' + image.id + '/contents?size=small';
   var $imgElement = $(imageTemplate(image));
 
@@ -215,7 +211,7 @@ Fliplet.Widget.onSaveRequest(function () {
   });
 });
 
-window.addEventListener('message', function (event) {
+window.addEventListener('message', function(event) {
   if (event.data === 'cancel-button-pressed') {
     if (!providerInstance) return;
     providerInstance.close();
@@ -227,21 +223,25 @@ window.addEventListener('message', function (event) {
   }
 });
 
-
 function getSelectedImage($img) {
   var index = $img.index();
   var selectedImage = data.images[index];
+
   return {
     index: index,
     img: selectedImage
   };
 }
 
-function onImageClick(e){
+function onImageClick(e) {
   e.preventDefault();
   var $el = $(this);
   var selectedImageObj = getSelectedImage($el);
-  if(selectedImageObj.index === imageForEditIndex) return;
+
+  if (selectedImageObj.index === imageForEditIndex) {
+    return;
+  }
+
   selectedImage = selectedImageObj.img;
   imageForEditIndex = selectedImageObj.index;
   $editInput.val(selectedImage.title || '');
@@ -251,19 +251,19 @@ function onImageClick(e){
   $editInput.focus();
 }
 
-$editInput.keyup(function( event ) {
-  if ( event.which == 13 ) {
+$editInput.keyup(function(event) {
+  if (event.which == 13) {
     event.preventDefault();
     changeImageTitle();
     onEditClose(event);
   }
 });
 
-function onInputChange(e){
+function onInputChange() {
   changeImageTitle();
 }
 
-function changeImageTitle(){
+function changeImageTitle() {
   if (!selectedImage) return;
   selectedImage.title = $editInput.val() ? $editInput.val() : '';
   $el = $($('div.image-library').children()[imageForEditIndex]).find('.title-text');
@@ -274,6 +274,8 @@ function changeImageTitle(){
 
 function onEditClose(e) {
   if(e) e.preventDefault();
+
+  imageForEditIndex = null;
   $editImageTitle.detach();
   changeDragging(true);
 }
@@ -283,8 +285,8 @@ function toggleImages() {
 }
 
 function onEditClick() {
-
   var imageIndex = imageForEditIndex;
+
   onEditClose();
   toggleImages();
   Fliplet.Widget.toggleSaveButton(false);
@@ -307,7 +309,7 @@ function onEditClick() {
     }
   });
 
-  providerInstance.then(function (eventData) {
+  providerInstance.then(function(eventData) {
     eventData.data.image.title = data.images[imageIndex].title;
     data.images[imageIndex] = eventData.data.image;
     onEditClose();
@@ -320,7 +322,6 @@ function onEditClick() {
     drawImages();
     savePreview();
   });
-
 }
 
 init();

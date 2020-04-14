@@ -3,27 +3,29 @@ Fliplet.Widget.instance('image-gallery', function (data) {
   var photoswipeTemplate = Fliplet.Widget.Templates['templates.photoswipe'];
   var wallSelector = '[data-image-gallery-id=' + data.id + '] .wall:not("[data-mce-bogus] [data-image-gallery-id=' + data.id + '] .wall")';
 
-  function initGallery() {
+  function initGallery(source) {
     var $wall = $(wallSelector);
     var $bricks = $();
 
-    // Update remote image URLs to authenticated URLs
-    _.forEach(data.images, function (image, index) {
-      var $img = $('<img />');
+    if (source !== 'appearance') {
+      // Update remote image URLs to authenticated URLs
+      _.forEach(data.images, function (image, index) {
+        var $img = $('<img />');
 
-      image.url = Fliplet.Media.authenticate(image.url);
-      $img.on('load', function() {
-        reloadWall();
+        image.url = Fliplet.Media.authenticate(image.url);
+        $img.on('load', function() {
+          reloadWall();
+        });
+        $img.attr('src', image.url);
+        $img.attr('alt', image.title);
+
+        var $brick = $('<div class="brick"></div>');
+
+        $brick.append($img);
+        $bricks = $bricks.add($brick);
       });
-      $img.attr('src', image.url);
-      $img.attr('alt', image.title);
-
-      var $brick = $('<div class="brick"></div>');
-
-      $brick.append($img);
-      $bricks = $bricks.add($brick);
-    });
-    $wall.append($bricks);
+        $wall.append($bricks);
+    }
 
     var wall = new Freewall(wallSelector);
 
@@ -101,7 +103,7 @@ Fliplet.Widget.instance('image-gallery', function (data) {
 
   // Appearance change Hook
   Fliplet.Hooks.on('appearanceChanged', function () {
-    initGallery();
+    initGallery('appearance');
   });
 
   Fliplet().then(function () {

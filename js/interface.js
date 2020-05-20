@@ -297,18 +297,21 @@ function onInputChange() {
 }
 
 function changeImageTitle() {
-  if (!selectedImage) return;
+  if (!selectedImage) {
+    return;
+  }
+
   selectedImage.title = $editInput.val() ? $editInput.val() : '';
   $el = $($('div.image-library').children()[imageForEditIndex]).find('.title-text');
   selectedImage.title ?
     $el.removeClass('title-default-text').text(selectedImage.title) :
     $el.text('').addClass('title-default-text');
+  updateTitle(imageForEditIndex);
 }
 
 function onEditClose(e) {
   if(e) e.preventDefault();
 
-  updateTitle(imageForEditIndex);
   imageForEditIndex = null;
   $editImageTitle.detach();
   changeDragging(true);

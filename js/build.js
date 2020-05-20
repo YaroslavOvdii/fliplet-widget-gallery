@@ -3,11 +3,11 @@ Fliplet.Widget.instance('image-gallery', function (data) {
   var photoswipeTemplate = Fliplet.Widget.Templates['templates.photoswipe'];
   var wallSelector = '[data-image-gallery-id=' + data.id + '] .wall:not("[data-mce-bogus] [data-image-gallery-id=' + data.id + '] .wall")';
 
-  function initGallery(source) {
+  function initGallery(options) {
     var $wall = $(wallSelector);
     var $bricks = $();
 
-    if (source !== 'appearance') {
+    if (options.appendImages) {
       // Update remote image URLs to authenticated URLs
       _.forEach(data.images, function (image, index) {
         var $img = $('<img />');
@@ -103,10 +103,10 @@ Fliplet.Widget.instance('image-gallery', function (data) {
 
   // Appearance change Hook
   Fliplet.Hooks.on('appearanceChanged', function () {
-    initGallery('appearance');
+    initGallery({ appendImages: false});
   });
 
   Fliplet().then(function () {
-    initGallery();
+    initGallery({ appendImages: true });
   });
 });

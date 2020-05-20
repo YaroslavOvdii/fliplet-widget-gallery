@@ -252,7 +252,7 @@ function updateTitle(index) {
   if (newImage) {
     newImage.title = selectedImage.title;
   } else {
-    data.imagesMetadata.push({title: selectedImage.title});
+    data.imagesMetadata.push({ title: selectedImage.title });
   }
 }
 

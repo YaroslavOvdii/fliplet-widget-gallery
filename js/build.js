@@ -6,6 +6,7 @@ Fliplet.Widget.instance('image-gallery', function (data) {
   function initGallery(options) {
     var $wall = $(wallSelector);
     var $bricks = $();
+    options = options || {};
 
     if (options.appendImages) {
       // Update remote image URLs to authenticated URLs
@@ -24,7 +25,8 @@ Fliplet.Widget.instance('image-gallery', function (data) {
         $brick.append($img);
         $bricks = $bricks.add($brick);
       });
-        $wall.append($bricks);
+
+      $wall.append($bricks);
     }
 
     var wall = new Freewall(wallSelector);
@@ -103,7 +105,7 @@ Fliplet.Widget.instance('image-gallery', function (data) {
 
   // Appearance change Hook
   Fliplet.Hooks.on('appearanceChanged', function () {
-    initGallery({ appendImages: false});
+    initGallery();
   });
 
   Fliplet().then(function () {

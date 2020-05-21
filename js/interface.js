@@ -1,6 +1,7 @@
 var widgetId = Fliplet.Widget.getDefaultId();
 var data = Fliplet.Widget.getData() || {};
 data.images = data.images || [];
+data.imagesMetadata = data.imagesMetadata || [];
 
 var $addImageButton = $('#add-image');
 var $imagesContainer = $('.image-library');
@@ -38,6 +39,18 @@ $editInput
 
 $('body')
   .keydown(editImageTitleBinding);
+
+function restoreFromMetadata() {
+  var metadataExists = data.images.some(function(elem) {
+    return elem.masterMediaFileId;
+  });
+
+  if (metadataExists) {
+    data.imagesMetadata.forEach(function(elem, index) {
+      data.images[index].title = elem.title;
+    });
+  }
+}
 
 function editImageTitleBinding(e) {
   if($editImageTitle.is(':visible'))
@@ -82,6 +95,7 @@ function changeWidgetHeader() {
 }
 
 function init() {
+  restoreFromMetadata();
   drawImages();
 }
 
@@ -169,8 +183,11 @@ function addImage(image) {
   $imgElement[0].onmouseover = function() {
     $deleteBtn = $(this).find('.image-overlay i');
     $deleteBtn[0].onclick = function() {
+      var imageToDelete = getSelectedImage($imgElement);
+
       onEditClose();
-      data.images.splice(getSelectedImage($imgElement).index, 1);
+      data.images.splice(imageToDelete.index, 1);
+      data.imagesMetadata.splice(imageToDelete.index, 1);
       $imgElement.remove();
       changeWidgetHeader();
       savePreview();
@@ -223,6 +240,22 @@ window.addEventListener('message', function(event) {
   }
 });
 
+function updateTitle(index) {
+  if (!_.isNumber(index) || !selectedImage || !selectedImage.id) {
+    return;
+  }
+
+  var newImage = data.imagesMetadata.find(function(elem, elemIndex) {
+    return elemIndex === index;
+  });
+
+  if (newImage) {
+    newImage.title = selectedImage.title;
+  } else {
+    data.imagesMetadata.push({ title: selectedImage.title });
+  }
+}
+
 function getSelectedImage($img) {
   var index = $img.index();
   var selectedImage = data.images[index];
@@ -264,12 +297,16 @@ function onInputChange() {
 }
 
 function changeImageTitle() {
-  if (!selectedImage) return;
+  if (!selectedImage) {
+    return;
+  }
+
   selectedImage.title = $editInput.val() ? $editInput.val() : '';
   $el = $($('div.image-library').children()[imageForEditIndex]).find('.title-text');
   selectedImage.title ?
     $el.removeClass('title-default-text').text(selectedImage.title) :
     $el.text('').addClass('title-default-text');
+  updateTitle(imageForEditIndex);
 }
 
 function onEditClose(e) {

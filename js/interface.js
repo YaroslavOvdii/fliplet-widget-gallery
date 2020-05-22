@@ -50,6 +50,8 @@ function restoreFromMetadata() {
       data.images[index].title = elem.title;
     });
   }
+
+  savePreview();
 }
 
 function editImageTitleBinding(e) {

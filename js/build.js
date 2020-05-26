@@ -6,6 +6,7 @@ Fliplet.Widget.instance('image-gallery', function (data) {
   function initGallery(options) {
     var $wall = $(wallSelector);
     var $bricks = $();
+
     options = options || {};
 
     if (options.appendImages) {

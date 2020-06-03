@@ -1,4 +1,4 @@
-Fliplet.Widget.instance('image-gallery', function (data) {
+Fliplet.Widget.instance('image-gallery', function(data) {
   var $container = $(this);
   var photoswipeTemplate = Fliplet.Widget.Templates['templates.photoswipe'];
   var wallSelector = '[data-image-gallery-id=' + data.id + '] .wall:not("[data-mce-bogus] [data-image-gallery-id=' + data.id + '] .wall")';
@@ -11,7 +11,7 @@ Fliplet.Widget.instance('image-gallery', function (data) {
 
     if (options.appendImages) {
       // Update remote image URLs to authenticated URLs
-      _.forEach(data.images, function (image, index) {
+      _.forEach(data.images, function(image) {
         var $img = $('<img />');
 
         image.url = Fliplet.Media.authenticate(image.url);
@@ -66,7 +66,7 @@ Fliplet.Widget.instance('image-gallery', function (data) {
 
         var gallery = Fliplet.Navigate.previewImages(data);
 
-        gallery.listen('afterChange', function(context) {
+        gallery.listen('afterChange', function() {
           Fliplet.Page.Context.update({
             galleryId: data.id,
             galleryOpenIndex: this.getCurrentIndex()
@@ -105,11 +105,11 @@ Fliplet.Widget.instance('image-gallery', function (data) {
   }
 
   // Appearance change Hook
-  Fliplet.Hooks.on('appearanceChanged', function () {
+  Fliplet.Hooks.on('appearanceChanged', function() {
     initGallery();
   });
 
-  Fliplet().then(function () {
+  Fliplet().then(function() {
     initGallery({ appendImages: true });
   });
 });
